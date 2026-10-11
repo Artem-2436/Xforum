@@ -12,19 +12,42 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: rgba(255, 255, 255, 0.7);
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --hover-bg: rgba(0, 0, 0, 0.05);
+            --active-bg: #000000;
+            --active-text: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: rgba(40, 40, 40, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --hover-bg: rgba(255, 255, 255, 0.05);
+            --active-bg: #ffffff;
+            --active-text: #000000;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #ffffff;
-            color: #000000;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             overflow-x: hidden;
+            transition: background 0.3s, color 0.3s;
         }
 
         /* Glass Effect */
         .glass {
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--bg-secondary);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
@@ -60,7 +83,7 @@
             padding: 0.75rem;
             border: none;
             background: transparent;
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1rem;
             cursor: pointer;
             border-bottom: 2px solid transparent;
@@ -68,8 +91,8 @@
         }
 
         .auth-tab.active {
-            color: #000;
-            border-bottom-color: #000;
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
         }
 
         .auth-form {
@@ -80,18 +103,19 @@
 
         .auth-form input {
             padding: 0.75rem;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             font-size: 1rem;
-            background: rgba(255, 255, 255, 0.9);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
 
         .auth-form button {
             padding: 0.75rem;
             border: none;
             border-radius: 10px;
-            background: #000;
-            color: #fff;
+            background: var(--active-bg);
+            color: var(--active-text);
             font-size: 1rem;
             cursor: pointer;
             transition: opacity 0.3s;
@@ -111,7 +135,7 @@
         .sidebar {
             width: 280px;
             padding: 1.5rem;
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            border-right: 1px solid var(--border-color);
             overflow-y: auto;
             transition: transform 0.3s;
         }
@@ -128,7 +152,7 @@
             width: 40px;
             height: 40px;
             border: none;
-            background: rgba(0, 0, 0, 0.1);
+            background: var(--hover-bg);
             border-radius: 10px;
             cursor: pointer;
             z-index: 100;
@@ -141,7 +165,7 @@
         .menu-toggle span {
             width: 20px;
             height: 2px;
-            background: #000;
+            background: var(--text-primary);
             transition: all 0.3s;
         }
 
@@ -153,7 +177,7 @@
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
-            color: #666;
+            color: var(--text-secondary);
             text-transform: uppercase;
         }
 
@@ -166,12 +190,12 @@
         }
 
         .chat-item:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: var(--hover-bg);
         }
 
         .chat-item.active {
-            background: #000;
-            color: #fff;
+            background: var(--active-bg);
+            color: var(--active-text);
         }
 
         /* Main Content */
@@ -184,12 +208,43 @@
 
         .content-header {
             padding: 1.5rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .content-header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .content-header h2 {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: var(--text-primary);
+        }
+
+        .icon-btn:hover {
+            background: var(--hover-bg);
         }
 
         .view-switcher {
@@ -199,16 +254,17 @@
 
         .view-btn {
             padding: 0.5rem 1rem;
-            border: 1px solid #000;
+            border: 1px solid var(--text-primary);
             background: transparent;
+            color: var(--text-primary);
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .view-btn.active {
-            background: #000;
-            color: #fff;
+            background: var(--active-bg);
+            color: var(--active-text);
         }
 
         /* Chat View */
@@ -234,12 +290,12 @@
 
         .message.own {
             margin-left: auto;
-            background: #000;
-            color: #fff;
+            background: var(--active-bg);
+            color: var(--active-text);
         }
 
         .message.other {
-            background: rgba(0, 0, 0, 0.05);
+            background: var(--hover-bg);
         }
 
         .message-author {
@@ -254,7 +310,7 @@
 
         .message-input-container {
             padding: 1.5rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-top: 1px solid var(--border-color);
             display: flex;
             gap: 0.5rem;
         }
@@ -262,17 +318,19 @@
         .message-input-container input {
             flex: 1;
             padding: 0.75rem 1rem;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
 
         .message-input-container button {
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 20px;
-            background: #000;
-            color: #fff;
+            background: var(--active-bg);
+            color: var(--active-text);
             cursor: pointer;
             transition: opacity 0.3s;
         }
@@ -293,7 +351,7 @@
             padding: 1rem;
             margin-bottom: 1rem;
             border-radius: 15px;
-            background: rgba(0, 0, 0, 0.05);
+            background: var(--hover-bg);
         }
 
         .blog-post-header {
@@ -302,7 +360,7 @@
             gap: 0.5rem;
             margin-bottom: 0.75rem;
             font-size: 0.875rem;
-            color: #666;
+            color: var(--text-secondary);
         }
 
         .blog-post-content {
@@ -319,7 +377,7 @@
             padding: 0.5rem 1rem;
             border: none;
             background: transparent;
-            color: #000;
+            color: var(--text-primary);
             cursor: pointer;
             font-size: 0.875rem;
             transition: opacity 0.3s;
@@ -332,34 +390,163 @@
         .blog-reply {
             margin-left: 2rem;
             padding: 0.75rem;
-            border-left: 2px solid rgba(0, 0, 0, 0.1);
+            border-left: 2px solid var(--border-color);
             margin-top: 0.75rem;
         }
 
         .new-blog-form {
             padding: 1.5rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            border-top: 1px solid var(--border-color);
             display: none;
         }
 
         .new-blog-form textarea {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 10px;
             font-size: 1rem;
             resize: vertical;
             min-height: 100px;
             margin-bottom: 0.5rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
 
         .new-blog-form button {
             padding: 0.75rem 1.5rem;
             border: none;
             border-radius: 10px;
-            background: #000;
-            color: #fff;
+            background: var(--active-bg);
+            color: var(--active-text);
             cursor: pointer;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .settings-modal.visible {
+            display: flex;
+        }
+
+        .settings-container {
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            border-radius: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .settings-header h3 {
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: transparent;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .settings-section {
+            margin-bottom: 2rem;
+        }
+
+        .settings-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .settings-form input {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .settings-form button {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 10px;
+            background: var(--active-bg);
+            color: var(--active-text);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .settings-form button:hover {
+            opacity: 0.8;
+        }
+
+        .danger-btn {
+            background: #dc3545 !important;
+            color: white !important;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--hover-bg);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--active-bg);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
         }
 
         /* Mobile Responsive */
@@ -435,7 +622,13 @@
         <!-- Content -->
         <main class="content">
             <div class="content-header glass">
-                <h2 id="currentViewTitle">Главный зал</h2>
+                <div class="content-header-top">
+                    <h2 id="currentViewTitle">Главный зал</h2>
+                    <div class="header-buttons">
+                        <button class="icon-btn" id="settingsBtn" title="Настройки">⚙️</button>
+                        <button class="icon-btn" id="logoutBtn" title="Выйти">🚪</button>
+                    </div>
+                </div>
                 <div class="view-switcher">
                     <button class="view-btn active" data-view="chat">Чат</button>
                     <button class="view-btn" data-view="private">Переписки</button>
@@ -464,369 +657,565 @@
             </div>
         </main>
     </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-container glass">
+            <div class="settings-header">
+                <h3>Настройки</h3>
+                <button class="close-btn" id="closeSettingsBtn">×</button>
+            </div>
+
+            <div class="settings-section">
+                <h4>Тема оформления</h4>
+                <div class="theme-toggle">
+                    <span>Светлая</span>
+                    <div class="toggle-switch" id="themeToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <span>Темная</span>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h4>Сменить пароль</h4>
+                <form class="settings-form" id="changePasswordForm">
+                    <input type="password" placeholder="Новый пароль" required minlength="6">
+                    <input type="password" placeholder="Подтвердите пароль" required minlength="6">
+                    <button type="submit">Сменить пароль</button>
+                </form>
+            </div>
+
+            <div class="settings-section">
+                <h4>Удаление аккаунта</h4>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Это действие необратимо! Все ваши данные будут удалены.</p>
+                <button class="danger-btn" id="deleteAccountBtn">Удалить аккаунт</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Supabase конфигурация
+        const SUPABASE_URL = 'https://epklfzbvlqzarptpwsdn.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_aa5ojwVrZ7pfLE0ec0DV5w_p3Zk2fcn';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Supabase конфигурация
-const SUPABASE_URL = 'https://epklfzbvlqzarptpwsdn.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_aa5ojwVrZ7pfLE0ec0DV5w_p3Zk2fcn';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Состояние приложения
+        let currentUser = null;
+        let currentChatRoom = 1;
+        let currentView = 'chat';
+        let messagesSubscription = null;
+        let blogsSubscription = null;
 
-// Состояние приложения
-let currentUser = null;
-let currentChatRoom = 1;
-let currentView = 'chat';
+        // Элементы DOM
+        const authModal = document.getElementById('authModal');
+        const mainContainer = document.getElementById('mainContainer');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const chatList = document.getElementById('chatList');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const blogView = document.getElementById('blogView');
+        const chatView = document.getElementById('chatView');
+        const newBlogForm = document.getElementById('newBlogForm');
+        const blogPosts = document.getElementById('blogPosts');
+        const blogInput = document.getElementById('blogInput');
+        const postBlogBtn = document.getElementById('postBlogBtn');
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const settingsModal = document.getElementById('settingsModal');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
 
-// Элементы DOM
-const authModal = document.getElementById('authModal');
-const mainContainer = document.getElementById('mainContainer');
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-const authTabs = document.querySelectorAll('.auth-tab');
-const chatList = document.getElementById('chatList');
-const messagesContainer = document.getElementById('messagesContainer');
-const messageInput = document.getElementById('messageInput');
-const sendMessageBtn = document.getElementById('sendMessageBtn');
-const blogView = document.getElementById('blogView');
-const chatView = document.getElementById('chatView');
-const newBlogForm = document.getElementById('newBlogForm');
-const blogPosts = document.getElementById('blogPosts');
-const blogInput = document.getElementById('blogInput');
-const postBlogBtn = document.getElementById('postBlogBtn');
-const menuToggle = document.getElementById('menuToggle');
-const sidebar = document.getElementById('sidebar');
-
-// Переключение вкладок авторизации
-authTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        authTabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        
-        if (tab.dataset.tab === 'login') {
-            loginForm.style.display = 'flex';
-            registerForm.style.display = 'none';
-        } else {
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'flex';
+        // Загрузка темы
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                themeToggle.classList.add('active');
+            }
         }
-    });
-});
 
-// Регистрация
-// Регистрация
-// Регистрация
-registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const username = registerForm.querySelector('input[type="text"]').value;
-    const email = registerForm.querySelector('input[type="email"]').value;
-    const password = registerForm.querySelector('input[type="password"]').value;
-
-    const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-            data: { username: username },
-            emailRedirectTo: window.location.origin
-        }
-    });
-
-    if (error) {
-        alert('Ошибка регистрации: ' + error.message);
-        return;
-    }
-
-    // Если email не требует подтверждения, сразу входим
-    if (data.user && !data.user.identities?.[0]?.identity_data?.email_verified) {
-        // Пытаемся сразу войти
-        const { data: signInData, error: signInError } = await supabaseClient.auth.signInWithPassword({
-            email,
-            password
+        // Переключение темы
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeToggle.classList.toggle('active');
         });
-        
-        if (signInError) {
-            console.error('Ошибка автовхода:', signInError);
-            alert('Регистрация успешна!');
-        } else {
-            currentUser = signInData.user;
-            authModal.style.display = 'none';
-            mainContainer.style.display = 'flex';
-            loadChatRooms();
-            loadMessages();
-        }
-    } else if (data.session) {
-        // Если сессия уже создана (email подтвержден автоматически)
-        currentUser = data.user;
-        authModal.style.display = 'none';
-        mainContainer.style.display = 'flex';
-        loadChatRooms();
-        loadMessages();
-    } else {
-        alert('Регистрация успешна');
-    }
-});
 
-// Вход
-// Вход
-loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = loginForm.querySelector('input[type="email"]').value;
-    const password = loginForm.querySelector('input[type="password"]').value;
+        // Загрузка темы при старте
+        loadTheme();
 
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-    });
+        // Переключение вкладок авторизации
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                if (tab.dataset.tab === 'login') {
+                    loginForm.style.display = 'flex';
+                    registerForm.style.display = 'none';
+                } else {
+                    loginForm.style.display = 'none';
+                    registerForm.style.display = 'flex';
+                }
+            });
+        });
 
-    if (error) {
-        if (error.message === 'Email not confirmed') {
-            alert('Пожалуйста, потвердите ваш email адрес или обратитесь в службу поддержки');
-        } else {
-            alert('Ошибка входа: ' + error.message);
-        }
-    } else {
-        currentUser = data.user;
-        authModal.style.display = 'none';
-        mainContainer.style.display = 'flex';
-        loadChatRooms();
-        loadMessages();
-    }
-});
+        // Регистрация
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = registerForm.querySelector('input[type="text"]').value;
+            const email = registerForm.querySelector('input[type="email"]').value;
+            const password = registerForm.querySelector('input[type="password"]').value;
 
-// Загрузка чатов
-async function loadChatRooms() {
-    const { data, error } = await supabaseClient
-        .from('chat_rooms')
-        .select('*');
+            const { data, error } = await supabaseClient.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { username: username },
+                    emailRedirectTo: window.location.origin
+                }
+            });
 
-    if (error) {
-        console.error('Ошибка загрузки чатов:', error);
-        return;
-    }
+            if (error) {
+                alert('Ошибка регистрации: ' + error.message);
+                return;
+            }
 
-    chatList.innerHTML = '';
-    data.forEach(room => {
-        const item = document.createElement('div');
-        item.className = 'chat-item' + (room.id === currentChatRoom ? ' active' : '');
-        item.textContent = room.name;
-        item.addEventListener('click', () => {
-            currentChatRoom = room.id;
-            document.getElementById('currentViewTitle').textContent = room.name;
-            loadMessages();
-            loadChatRooms();
-            if (window.innerWidth <= 768) {
-                sidebar.classList.remove('visible');
+            // Если сессия создана (email не требует подтверждения)
+            if (data.session) {
+                currentUser = data.user;
+                authModal.style.display = 'none';
+                mainContainer.style.display = 'flex';
+                loadChatRooms();
+                loadMessages();
+            } else {
+                // Пытаемся сразу войти
+                const { data: signInData, error: signInError } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                
+                if (signInError) {
+                    alert('Регистрация успешна! Теперь войдите в систему.');
+                } else {
+                    currentUser = signInData.user;
+                    authModal.style.display = 'none';
+                    mainContainer.style.display = 'flex';
+                    loadChatRooms();
+                    loadMessages();
+                }
             }
         });
-        chatList.appendChild(item);
-    });
-}
 
-// Загрузка сообщений
-async function loadMessages() {
-    const { data, error } = await supabaseClient
-        .from('messages')
-        .select(`
-            *,
-            profiles (username)
-        `)
-        .eq('chat_room_id', currentChatRoom)
-        .order('created_at', { ascending: true });
+        // Вход
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = loginForm.querySelector('input[type="email"]').value;
+            const password = loginForm.querySelector('input[type="password"]').value;
 
-    if (error) {
-        console.error('Ошибка загрузки сообщений:', error);
-        return;
-    }
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
 
-    messagesContainer.innerHTML = '';
-    data.forEach(msg => {
-        const messageEl = document.createElement('div');
-        messageEl.className = 'message ' + (msg.user_id === currentUser.id ? 'own' : 'other');
-        messageEl.innerHTML = `
-            <div class="message-author">${msg.profiles.username}</div>
-            <div class="message-content">${msg.content}</div>
-        `;
-        messagesContainer.appendChild(messageEl);
-    });
-
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-}
-
-// Отправка сообщения
-sendMessageBtn.addEventListener('click', sendMessage);
-messageInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-});
-
-async function sendMessage() {
-    const content = messageInput.value.trim();
-    if (!content) return;
-
-    const { error } = await supabaseClient
-        .from('messages')
-        .insert({
-            chat_room_id: currentChatRoom,
-            user_id: currentUser.id,
-            content: content
+            if (error) {
+                if (error.message === 'Email not confirmed') {
+                    alert('Пожалуйста, подтвердите ваш email адрес.');
+                } else {
+                    alert('Ошибка входа: ' + error.message);
+                }
+            } else {
+                currentUser = data.user;
+                authModal.style.display = 'none';
+                mainContainer.style.display = 'flex';
+                loadChatRooms();
+                loadMessages();
+            }
         });
 
-    if (error) {
-        console.error('Ошибка отправки:', error);
-    } else {
-        messageInput.value = '';
-        loadMessages();
-    }
-}
+        // Загрузка чатов
+        async function loadChatRooms() {
+            const { data, error } = await supabaseClient
+                .from('chat_rooms')
+                .select('*');
 
-// Переключение видов
-document.querySelectorAll('.view-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentView = btn.dataset.view;
+            if (error) {
+                console.error('Ошибка загрузки чатов:', error);
+                return;
+            }
 
-        if (currentView === 'chat') {
-            chatView.style.display = 'flex';
-            blogView.style.display = 'none';
-            newBlogForm.style.display = 'none';
-        } else if (currentView === 'blog') {
-            chatView.style.display = 'none';
-            blogView.style.display = 'block';
-            newBlogForm.style.display = 'block';
-            loadBlogs();
+            chatList.innerHTML = '';
+            data.forEach(room => {
+                const item = document.createElement('div');
+                item.className = 'chat-item' + (room.id === currentChatRoom ? ' active' : '');
+                item.textContent = room.name;
+                item.addEventListener('click', () => {
+                    currentChatRoom = room.id;
+                    document.getElementById('currentViewTitle').textContent = room.name;
+                    loadMessages();
+                    loadChatRooms();
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('visible');
+                    }
+                });
+                chatList.appendChild(item);
+            });
         }
-    });
-});
 
-// Загрузка блогов
-async function loadBlogs() {
-    const { data, error } = await supabaseClient
-        .from('blogs')
-        .select(`
-            *,
-            profiles (username)
-        `)
-        .is('parent_id', null)
-        .order('created_at', { ascending: false });
+        // Загрузка сообщений с Realtime
+        async function loadMessages() {
+            // Удаляем старую подписку если есть
+            if (messagesSubscription) {
+                supabaseClient.removeChannel(messagesSubscription);
+            }
 
-    if (error) {
-        console.error('Ошибка загрузки блогов:', error);
-        return;
-    }
+            // Первоначальная загрузка сообщений
+            const { data, error } = await supabaseClient
+                .from('messages')
+                .select(`
+                    *,
+                    profiles (username)
+                `)
+                .eq('chat_room_id', currentChatRoom)
+                .order('created_at', { ascending: true });
 
-    blogPosts.innerHTML = '';
-    for (const post of data) {
-        await renderBlogPost(post);
-    }
-}
+            if (error) {
+                console.error('Ошибка загрузки сообщений:', error);
+                return;
+            }
 
-async function renderBlogPost(post, isReply = false) {
-    const postEl = document.createElement('div');
-    postEl.className = isReply ? 'blog-reply' : 'blog-post';
-    postEl.innerHTML = `
-        <div class="blog-post-header">
-            <strong>${post.profiles.username}</strong>
-            <span>•</span>
-            <span>${new Date(post.created_at).toLocaleString('ru-RU')}</span>
-        </div>
-        <div class="blog-post-content">${post.content}</div>
-        <div class="blog-post-actions">
-            <button class="blog-action-btn" data-id="${post.id}">Ответить</button>
-        </div>
-    `;
+            renderMessages(data);
 
-    const replyBtn = postEl.querySelector('.blog-action-btn');
-    replyBtn.addEventListener('click', () => {
-        const replyContent = prompt('Ваш ответ:');
-        if (replyContent) {
-            postReply(post.id, replyContent);
+            // Подписка на изменения в реальном времени
+            messagesSubscription = supabaseClient
+                .channel(`messages:${currentChatRoom}`)
+                .on('postgres_changes', 
+                    { 
+                        event: 'INSERT', 
+                        schema: 'public', 
+                        table: 'messages',
+                        filter: `chat_room_id=eq.${currentChatRoom}`
+                    }, 
+                    async (payload) => {
+                        // Загружаем полную информацию о новом сообщении
+                        const { data: newMessage } = await supabaseClient
+                            .from('messages')
+                            .select(`
+                                *,
+                                profiles (username)
+                            `)
+                            .eq('id', payload.new.id)
+                            .single();
+
+                        if (newMessage) {
+                            appendMessage(newMessage);
+                        }
+                    }
+                )
+                .subscribe();
         }
-    });
 
-    blogPosts.appendChild(postEl);
-
-    // Загрузка ответов
-    const { data: replies } = await supabaseClient
-        .from('blogs')
-        .select(`
-            *,
-            profiles (username)
-        `)
-        .eq('parent_id', post.id)
-        .order('created_at', { ascending: true });
-
-    if (replies) {
-        for (const reply of replies) {
-            await renderBlogPost(reply, true);
+        // Отрисовка всех сообщений
+        function renderMessages(messages) {
+            messagesContainer.innerHTML = '';
+            messages.forEach(msg => {
+                appendMessage(msg, false);
+            });
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-    }
-}
 
-// Публикация блога
-postBlogBtn.addEventListener('click', async () => {
-    const content = blogInput.value.trim();
-    if (!content) return;
+        // Добавление одного сообщения
+        function appendMessage(msg, scroll = true) {
+            const messageEl = document.createElement('div');
+            messageEl.className = 'message ' + (msg.user_id === currentUser.id ? 'own' : 'other');
+            messageEl.innerHTML = `
+                <div class="message-author">${msg.profiles.username}</div>
+                <div class="message-content">${msg.content}</div>
+            `;
+            messagesContainer.appendChild(messageEl);
+            
+            if (scroll) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
 
-    const { error } = await supabaseClient
-        .from('blogs')
-        .insert({
-            user_id: currentUser.id,
-            content: content
+        // Отправка сообщения
+        sendMessageBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
         });
 
-    if (error) {
-        console.error('Ошибка публикации:', error);
-    } else {
-        blogInput.value = '';
-        loadBlogs();
-    }
-});
+        async function sendMessage() {
+            const content = messageInput.value.trim();
+            if (!content) return;
 
-// Ответ на блог
-async function postReply(parentId, content) {
-    const { error } = await supabaseClient
-        .from('blogs')
-        .insert({
-            user_id: currentUser.id,
-            content: content,
-            parent_id: parentId
+            const { error } = await supabaseClient
+                .from('messages')
+                .insert({
+                    chat_room_id: currentChatRoom,
+                    user_id: currentUser.id,
+                    content: content
+                });
+
+            if (error) {
+                console.error('Ошибка отправки:', error);
+            } else {
+                messageInput.value = '';
+            }
+        }
+
+        // Переключение видов
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentView = btn.dataset.view;
+
+                if (currentView === 'chat') {
+                    chatView.style.display = 'flex';
+                    blogView.style.display = 'none';
+                    newBlogForm.style.display = 'none';
+                } else if (currentView === 'blog') {
+                    chatView.style.display = 'none';
+                    blogView.style.display = 'block';
+                    newBlogForm.style.display = 'block';
+                    loadBlogs();
+                }
+            });
         });
 
-    if (error) {
-        console.error('Ошибка ответа:', error);
-    } else {
-        loadBlogs();
-    }
-}
+        // Загрузка блогов с Realtime
+        async function loadBlogs() {
+            // Удаляем старую подписку если есть
+            if (blogsSubscription) {
+                supabaseClient.removeChannel(blogsSubscription);
+            }
 
-// Мобильное меню
-menuToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('visible');
-});
+            // Первоначальная загрузка блогов
+            const { data, error } = await supabaseClient
+                .from('blogs')
+                .select(`
+                    *,
+                    profiles (username)
+                `)
+                .is('parent_id', null)
+                .order('created_at', { ascending: false });
 
-// Проверка сессии
-supabaseClient.auth.getSession().then(({ data: { session } }) => {
-    if (session) {
-        currentUser = session.user;
-        authModal.style.display = 'none';
-        mainContainer.style.display = 'flex';
-        loadChatRooms();
-        loadMessages();
-    }
-});
+            if (error) {
+                console.error('Ошибка загрузки блогов:', error);
+                return;
+            }
 
-// Слушатель изменений авторизации
-supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN' && session) {
-        currentUser = session.user;
-        authModal.style.display = 'none';
-        mainContainer.style.display = 'flex';
-        loadChatRooms();
-        loadMessages();
-    } else if (event === 'SIGNED_OUT') {
-        currentUser = null;
-        authModal.style.display = 'flex';
-        mainContainer.style.display = 'none';
-    }
-});
-</script>
+            blogPosts.innerHTML = '';
+            for (const post of data) {
+                await renderBlogPost(post);
+            }
+
+            // Подписка на изменения в реальном времени
+            blogsSubscription = supabaseClient
+                .channel('blogs:changes')
+                .on('postgres_changes', 
+                    { 
+                        event: '*', 
+                        schema: 'public', 
+                        table: 'blogs'
+                    }, 
+                    () => {
+                        // При любом изменении перезагружаем все блоги
+                        loadBlogs();
+                    }
+                )
+                .subscribe();
+        }
+
+        async function renderBlogPost(post, isReply = false) {
+            const postEl = document.createElement('div');
+            postEl.className = isReply ? 'blog-reply' : 'blog-post';
+            postEl.innerHTML = `
+                <div class="blog-post-header">
+                    <strong>${post.profiles.username}</strong>
+                    <span>•</span>
+                    <span>${new Date(post.created_at).toLocaleString('ru-RU')}</span>
+                </div>
+                <div class="blog-post-content">${post.content}</div>
+                <div class="blog-post-actions">
+                    <button class="blog-action-btn" data-id="${post.id}">Ответить</button>
+                </div>
+            `;
+
+            const replyBtn = postEl.querySelector('.blog-action-btn');
+            replyBtn.addEventListener('click', () => {
+                const replyContent = prompt('Ваш ответ:');
+                if (replyContent) {
+                    postReply(post.id, replyContent);
+                }
+            });
+
+            blogPosts.appendChild(postEl);
+
+            // Загрузка ответов
+            const { data: replies } = await supabaseClient
+                .from('blogs')
+                .select(`
+                    *,
+                    profiles (username)
+                `)
+                .eq('parent_id', post.id)
+                .order('created_at', { ascending: true });
+
+            if (replies) {
+                for (const reply of replies) {
+                    await renderBlogPost(reply, true);
+                }
+            }
+        }
+
+        // Публикация блога
+        postBlogBtn.addEventListener('click', async () => {
+            const content = blogInput.value.trim();
+            if (!content) return;
+
+            const { error } = await supabaseClient
+                .from('blogs')
+                .insert({
+                    user_id: currentUser.id,
+                    content: content
+                });
+
+            if (error) {
+                console.error('Ошибка публикации:', error);
+            } else {
+                blogInput.value = '';
+            }
+        });
+
+        // Ответ на блог
+        async function postReply(parentId, content) {
+            const { error } = await supabaseClient
+                .from('blogs')
+                .insert({
+                    user_id: currentUser.id,
+                    content: content,
+                    parent_id: parentId
+                });
+
+            if (error) {
+                console.error('Ошибка ответа:', error);
+            }
+        }
+
+        // Мобильное меню
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('visible');
+        });
+
+        // Настройки
+        settingsBtn.addEventListener('click', () => {
+            settingsModal.classList.add('visible');
+        });
+
+        closeSettingsBtn.addEventListener('click', () => {
+            settingsModal.classList.remove('visible');
+        });
+
+        settingsModal.addEventListener('click', (e) => {
+            if (e.target === settingsModal) {
+                settingsModal.classList.remove('visible');
+            }
+        });
+
+        // Смена пароля
+        changePasswordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPassword = changePasswordForm.querySelector('input[type="password"]:first-of-type').value;
+            const confirmPassword = changePasswordForm.querySelector('input[type="password"]:last-of-type').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Пароли не совпадают!');
+                return;
+            }
+
+            const { error } = await supabaseClient.auth.updateUser({
+                password: newPassword
+            });
+
+            if (error) {
+                alert('Ошибка смены пароля: ' + error.message);
+            } else {
+                alert('Пароль успешно изменен!');
+                changePasswordForm.reset();
+                settingsModal.classList.remove('visible');
+            }
+        });
+
+        // Удаление аккаунта
+        deleteAccountBtn.addEventListener('click', async () => {
+            if (!confirm('Вы уверены? Это действие необратимо!')) {
+                return;
+            }
+
+            const { error } = await supabaseClient.rpc('delete_user_account');
+
+            if (error) {
+                alert('Ошибка удаления аккаунта: ' + error.message);
+            } else {
+                alert('Аккаунт успешно удален!');
+                await supabaseClient.auth.signOut();
+                window.location.reload();
+            }
+        });
+
+        // Выход
+        logoutBtn.addEventListener('click', async () => {
+            // Удаляем подписки
+            if (messagesSubscription) {
+                supabaseClient.removeChannel(messagesSubscription);
+            }
+            if (blogsSubscription) {
+                supabaseClient.removeChannel(blogsSubscription);
+            }
+            
+            await supabaseClient.auth.signOut();
+            currentUser = null;
+            authModal.style.display = 'flex';
+            mainContainer.style.display = 'none';
+        });
+
+        // Проверка сессии
+        supabaseClient.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+                currentUser = session.user;
+                authModal.style.display = 'none';
+                mainContainer.style.display = 'flex';
+                loadChatRooms();
+                loadMessages();
+            }
+        });
+
+        // Слушатель изменений авторизации
+        supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' && session) {
+                currentUser = session.user;
+                authModal.style.display = 'none';
+                mainContainer.style.display = 'flex';
+                loadChatRooms();
+                loadMessages();
+            } else if (event === 'SIGNED_OUT') {
+                currentUser = null;
+                authModal.style.display = 'flex';
+                mainContainer.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
