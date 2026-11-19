@@ -70,59 +70,40 @@
             max-width: 400px;
             padding: 2rem;
             border-radius: 20px;
+            text-align: center;
         }
 
-        .auth-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
+        .auth-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
         }
 
-        .auth-tab {
-            flex: 1;
-            padding: 0.75rem;
-            border: none;
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s;
-        }
-
-        .auth-tab.active {
-            color: var(--text-primary);
-            border-bottom-color: var(--text-primary);
-        }
-
-        .auth-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .auth-form input {
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        .auth-form button {
-            padding: 0.75rem;
+        .github-btn {
+            width: 100%;
+            padding: 1rem;
             border: none;
             border-radius: 10px;
-            background: var(--active-bg);
-            color: var(--active-text);
+            background: #24292e; /* GitHub brand color */
+            color: white;
             font-size: 1rem;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .auth-form button:hover {
-            opacity: 0.8;
+        .github-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .github-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
         }
 
         /* Main Layout */
@@ -582,23 +563,15 @@
     <!-- Auth Modal -->
     <div class="auth-modal" id="authModal">
         <div class="auth-container glass">
-            <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="login">Вход</button>
-                <button class="auth-tab" data-tab="register">Регистрация</button>
-            </div>
+            <h2 class="auth-title">Вход в Форум</h2>
             
-            <form class="auth-form" id="loginForm">
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Пароль" required>
-                <button type="submit">Войти</button>
-            </form>
-
-            <form class="auth-form" id="registerForm" style="display: none;">
-                <input type="text" placeholder="Имя пользователя" required>
-                <input type="email" placeholder="Email" required>
-                <input type="password" placeholder="Пароль" required>
-                <button type="submit">Зарегистрироваться</button>
-            </form>
+            <!-- Кнопка GitHub -->
+            <button class="github-btn" id="githubLoginBtn">
+                <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                Sign in via GitHub
+            </button>
         </div>
     </div>
 
@@ -677,13 +650,11 @@
                 </div>
             </div>
 
+            <!-- Секция смены пароля удалена, так как вход только через GitHub -->
+            <!-- Можно добавить смену Username, если есть таблица profiles -->
             <div class="settings-section">
-                <h4>Сменить пароль</h4>
-                <form class="settings-form" id="changePasswordForm">
-                    <input type="password" placeholder="Новый пароль" required minlength="6">
-                    <input type="password" placeholder="Подтвердите пароль" required minlength="6">
-                    <button type="submit">Сменить пароль</button>
-                </form>
+                <h4>Профиль</h4>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Вы вошли через GitHub. Ваш ID: <span id="userIdDisplay"></span></p>
             </div>
 
             <div class="settings-section">
@@ -710,9 +681,8 @@
         // Элементы DOM
         const authModal = document.getElementById('authModal');
         const mainContainer = document.getElementById('mainContainer');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const authTabs = document.querySelectorAll('.auth-tab');
+        const githubLoginBtn = document.getElementById('githubLoginBtn');
+        
         const chatList = document.getElementById('chatList');
         const messagesContainer = document.getElementById('messagesContainer');
         const messageInput = document.getElementById('messageInput');
@@ -730,8 +700,8 @@
         const closeSettingsBtn = document.getElementById('closeSettingsBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const themeToggle = document.getElementById('themeToggle');
-        const changePasswordForm = document.getElementById('changePasswordForm');
         const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        const userIdDisplay = document.getElementById('userIdDisplay');
 
         // Загрузка темы
         function loadTheme() {
@@ -754,92 +724,24 @@
         // Загрузка темы при старте
         loadTheme();
 
-        // Переключение вкладок авторизации
-        authTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                authTabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                
-                if (tab.dataset.tab === 'login') {
-                    loginForm.style.display = 'flex';
-                    registerForm.style.display = 'none';
-                } else {
-                    loginForm.style.display = 'none';
-                    registerForm.style.display = 'flex';
-                }
-            });
-        });
-
-        // Регистрация
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = registerForm.querySelector('input[type="text"]').value;
-            const email = registerForm.querySelector('input[type="email"]').value;
-            const password = registerForm.querySelector('input[type="password"]').value;
-
-            const { data, error } = await supabaseClient.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: { username: username },
-                    emailRedirectTo: window.location.origin
-                }
-            });
-
-            if (error) {
-                alert('Ошибка регистрации: ' + error.message);
-                return;
-            }
-
-            // Если сессия создана (email не требует подтверждения)
-            if (data.session) {
-                currentUser = data.user;
-                authModal.style.display = 'none';
-                mainContainer.style.display = 'flex';
-                loadChatRooms();
-                loadMessages();
-            } else {
-                // Пытаемся сразу войти
-                const { data: signInData, error: signInError } = await supabaseClient.auth.signInWithPassword({
-                    email,
-                    password
+        // Логика авторизации через GitHub
+        githubLoginBtn.addEventListener('click', async () => {
+            try {
+                // Используем signInWithOAuth вместо signInWithPassword/signUp
+                const { error } = await supabaseClient.auth.signInWithOAuth({
+                    provider: 'github',
+                    options: {
+                        redirectTo: window.location.origin // Важно: URL должен быть разрешен в настройках Supabase Auth
+                    }
                 });
+
+                if (error) throw error;
                 
-                if (signInError) {
-                    alert('Регистрация успешна! Теперь войдите в систему.');
-                } else {
-                    currentUser = signInData.user;
-                    authModal.style.display = 'none';
-                    mainContainer.style.display = 'flex';
-                    loadChatRooms();
-                    loadMessages();
-                }
-            }
-        });
-
-        // Вход
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = loginForm.querySelector('input[type="email"]').value;
-            const password = loginForm.querySelector('input[type="password"]').value;
-
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email,
-                password
-            });
-
-            if (error) {
-                if (error.message === 'Email not confirmed') {
-                    alert('Пожалуйста, подтвердите ваш email адрес.');
-                } else {
-                    alert('Ошибка входа: ' + error.message);
-                }
-            } else {
-                currentUser = data.user;
-                authModal.style.display = 'none';
-                mainContainer.style.display = 'flex';
-                loadChatRooms();
-                loadMessages();
+                // После успешного вызова браузер перенаправит на GitHub, 
+                // а затем вернется сюда с токеном. Обработка возврата происходит ниже в onAuthStateChange.
+            } catch (err) {
+                console.error('Ошибка при попытке входа через GitHub:', err.message);
+                alert('Не удалось начать процесс авторизации. Проверьте консоль.');
             }
         });
 
@@ -938,8 +840,12 @@
         function appendMessage(msg, scroll = true) {
             const messageEl = document.createElement('div');
             messageEl.className = 'message ' + (msg.user_id === currentUser.id ? 'own' : 'other');
+            
+            // Безопасный вывод имени пользователя (если профили нет, показываем email или "Гость")
+            const authorName = msg.profiles?.username || msg.email?.split('@')[0] || 'Гость';
+            
             messageEl.innerHTML = `
-                <div class="message-author">${msg.profiles.username}</div>
+                <div class="message-author">${authorName}</div>
                 <div class="message-content">${msg.content}</div>
             `;
             messagesContainer.appendChild(messageEl);
@@ -969,6 +875,7 @@
 
             if (error) {
                 console.error('Ошибка отправки:', error);
+                alert('Не удалось отправить сообщение.');
             } else {
                 messageInput.value = '';
             }
@@ -1041,9 +948,12 @@
         async function renderBlogPost(post, isReply = false) {
             const postEl = document.createElement('div');
             postEl.className = isReply ? 'blog-reply' : 'blog-post';
+            
+            const authorName = post.profiles?.username || post.email?.split('@')[0] || 'Гость';
+
             postEl.innerHTML = `
                 <div class="blog-post-header">
-                    <strong>${post.profiles.username}</strong>
+                    <strong>${authorName}</strong>
                     <span>•</span>
                     <span>${new Date(post.created_at).toLocaleString('ru-RU')}</span>
                 </div>
@@ -1094,6 +1004,7 @@
 
             if (error) {
                 console.error('Ошибка публикации:', error);
+                alert('Не удалось опубликовать пост.');
             } else {
                 blogInput.value = '';
             }
@@ -1111,6 +1022,7 @@
 
             if (error) {
                 console.error('Ошибка ответа:', error);
+                alert('Не удалось отправить ответ.');
             }
         }
 
@@ -1121,6 +1033,9 @@
 
         // Настройки
         settingsBtn.addEventListener('click', () => {
+            if(currentUser) {
+                userIdDisplay.textContent = currentUser.id;
+            }
             settingsModal.classList.add('visible');
         });
 
@@ -1134,36 +1049,15 @@
             }
         });
 
-        // Смена пароля
-        changePasswordForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const newPassword = changePasswordForm.querySelector('input[type="password"]:first-of-type').value;
-            const confirmPassword = changePasswordForm.querySelector('input[type="password"]:last-of-type').value;
-
-            if (newPassword !== confirmPassword) {
-                alert('Пароли не совпадают!');
-                return;
-            }
-
-            const { error } = await supabaseClient.auth.updateUser({
-                password: newPassword
-            });
-
-            if (error) {
-                alert('Ошибка смены пароля: ' + error.message);
-            } else {
-                alert('Пароль успешно изменен!');
-                changePasswordForm.reset();
-                settingsModal.classList.remove('visible');
-            }
-        });
-
         // Удаление аккаунта
         deleteAccountBtn.addEventListener('click', async () => {
             if (!confirm('Вы уверены? Это действие необратимо!')) {
                 return;
             }
 
+            // Примечание: Для OAuth пользователей удаление обычно требует RPC функции в БД,
+            // так как стандартный signOut просто завершает сессию.
+            // Оставлено как в оригинальном коде, предполагая наличие rpc 'delete_user_account'.
             const { error } = await supabaseClient.rpc('delete_user_account');
 
             if (error) {
@@ -1191,31 +1085,36 @@
             mainContainer.style.display = 'none';
         });
 
-        // Проверка сессии
+        // Проверка сессии при загрузке страницы
         supabaseClient.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                currentUser = session.user;
-                authModal.style.display = 'none';
-                mainContainer.style.display = 'flex';
-                loadChatRooms();
-                loadMessages();
+                handleSignedIn(session.user);
+            } else {
+                // Если нет сессии, оставляем модалку видимой
+                authModal.style.display = 'flex';
+                mainContainer.style.display = 'none';
             }
         });
 
-        // Слушатель изменений авторизации
+        // Слушатель изменений авторизации (Ключевой момент для OAuth)
         supabaseClient.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
-                currentUser = session.user;
-                authModal.style.display = 'none';
-                mainContainer.style.display = 'flex';
-                loadChatRooms();
-                loadMessages();
+                handleSignedIn(session.user);
             } else if (event === 'SIGNED_OUT') {
                 currentUser = null;
                 authModal.style.display = 'flex';
                 mainContainer.style.display = 'none';
             }
         });
+
+        // Функция обработки успешного входа
+        function handleSignedIn(user) {
+            currentUser = user;
+            authModal.style.display = 'none';
+            mainContainer.style.display = 'flex';
+            loadChatRooms();
+            loadMessages();
+        }
     </script>
 </body>
 </html>
